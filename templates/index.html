@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUTM Result Portal</title>
+    <link rel="icon" type="image/x-icon" href="/static/favhome.png">
+    
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --apple-blue: #007AFF;
+            --apple-gray: #1d1d1f;
+            --apple-gray-light: #3b3bad;
+            --apple-gray-bg: #f5f5f7;
+            --apple-white: #ffffff;
+            --apple-border: rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--apple-white);
+            color: var(--apple-gray);
+            line-height: 1.47059;
+            font-weight: 400;
+        }
+        
+        .navbar {
+            background: rgba(70,130,180,0.9) !important;
+            backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(70,130,180,0.3);
+            padding: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .navbar .container {
+            padding: 0 22px;
+            justify-content: center;
+        }
+        
+        .navbar-brand img {
+            height: 50px;
+        }
+        
+        .nav-link {
+            color: #ffffff !important;
+            font-size: 17px;
+            font-weight: 400;
+            padding: 12px 16px !important;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 20px;
+            background: #4682b4 !important;
+            margin: 0 5px;
+            animation: pulse 2s infinite, moveUpDown 3s ease-in-out infinite;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff !important;
+            background: #36648b !important;
+            transform: scale(1.05);
+        }
+        
+        .nav-link.official {
+            background: #003366 !important;
+            color: #ffffff !important;
+            border-radius: 20px;
+            animation: pulse 2s infinite, moveUpDown 3s ease-in-out infinite;
+        }
+        
+        .nav-link.official:hover {
+            background: #002244 !important;
+            color: #ffffff !important;
+            transform: scale(1.05);
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(70, 130, 180, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(70, 130, 180, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(70, 130, 180, 0); }
+        }
+        
+        @keyframes moveUpDown {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        .main-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(250,252,255,0.8) 100%), url('./static/cutm.png');
+            background-size: contain;
+            background-position: center center;
+            background-repeat: no-repeat;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+        
+        .search-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .logo-section {
+            margin-bottom: 48px;
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        .logo-text {
+            font-size: 72px;
+            font-weight: 700;
+            color: var(--apple-gray);
+            margin: 0;
+            letter-spacing: -0.01em;
+            background: linear-gradient(135deg, #4682b4 0%, #003366 50%, #4682b4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(70,130,180,0.6);
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+        
+        .university-name {
+            font-size: 24px;
+            font-weight: 400;
+            color: #4682b4;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 15px rgba(70,130,180,0.4);
+            animation: subtitleGlow 4s ease-in-out infinite alternate;
+            text-align: center;
+        }
+        
+        @keyframes textGlow {
+            0% {
+                text-shadow: 0 0 20px rgba(70,130,180,0.4), 0 0 40px rgba(70,130,180,0.3);
+                transform: scale(1);
+            }
+            100% {
+                text-shadow: 0 0 40px rgba(70,130,180,0.8), 0 0 60px rgba(70,130,180,0.6);
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes subtitleGlow {
+            0% {
+                text-shadow: 0 0 10px rgba(70,130,180,0.3);
+                opacity: 0.8;
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(70,130,180,0.6);
+                opacity: 1;
+            }
+        }
+        
+        .subtitle {
+            font-size: 21px;
+            color: var(--apple-gray-light);
+            margin-top: 12px;
+            font-weight: 400;
+            text-align: center;
+        }
+        
+        .search-box {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 40px;
+            margin: 0;
+            box-shadow: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: 90%;
+            max-width: 700px;
+            min-height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .search-box:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-label {
+            font-size: 17px;
+            color: #4682b4;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(70,130,180,0.3);
+        }
+        
+        .form-control {
+            border: 1px solid #4682b4;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 16px;
+            width: 100%;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: #4682b4;
+            font-family: inherit;
+            color: #ffffff;
+            text-align: center;
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--apple-blue);
+            box-shadow: 0 0 0 4px rgba(0,122,255,0.1);
+            transform: scale(1.02);
+        }
+        
+        .form-control:hover {
+            border-color: rgba(0,0,0,0.2);
+        }
+        
+        .search-buttons {
+            margin-top: 32px;
+        }
+        
+        .btn-apple {
+            background: #4682b4;
+            border: none;
+            border-radius: 980px;
+            color: white;
+            font-size: 17px;
+            font-weight: 500;
+            padding: 16px 32px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-family: inherit;
+            min-width: 200px;
+        }
+        
+        .btn-apple:hover {
+            background: #36648b;
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(70,130,180,0.3);
+        }
+        
+        .btn-apple:active {
+            transform: scale(0.98);
+        }
+        
+        .footer {
+            background: rgba(70,130,180,0.9);
+            backdrop-filter: saturate(180%) blur(20px);
+            border-top: 1px solid rgba(70,130,180,0.3);
+            padding: 8px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            font-size: 12px;
+            color: white;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 400;
+        }
+        
+        .footer-link:hover {
+            color: #e9ecef;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .social-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-size: 16px;
+            background: rgba(255,255,255,0.1);
+            color: #ffffff;
+        }
+        
+        .social-btn:hover {
+            transform: scale(1.15) translateY(-3px) rotate(5deg);
+            background: rgba(255,255,255,0.2);
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 64px;
+            }
+            
+            .search-box {
+                margin: 32px 0;
+                padding: 24px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            
+            .footer-links {
+                gap: 24px;
+            }
+            
+            .nav-link {
+                padding: 16px 12px !important;
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 48px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .btn-apple {
+                min-width: 100%;
+            }
+        }
+        
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #4682b4 0%, #36648b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: splashFadeOut 2.5s ease-in-out forwards;
+        }
+        
+        .splash-logo {
+            width: 200px;
+            height: 200px;
+            animation: logoGlow 1s ease-in-out infinite alternate, logoScale 1.5s ease-out;
+            filter: drop-shadow(0 0 50px rgba(255,255,255,0.8));
+        }
+        
+        @keyframes logoGlow {
+            0% {
+                filter: drop-shadow(0 0 30px rgba(255,255,255,0.6));
+                transform: scale(1);
+            }
+            100% {
+                filter: drop-shadow(0 0 80px rgba(255,255,255,1));
+                transform: scale(1.1);
+            }
+        }
+        
+        @keyframes logoScale {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes splashFadeOut {
+            0%, 60% {
+                opacity: 1;
+                visibility: visible;
+            }
+            100% {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+        
+        .main-content {
+            opacity: 0;
+            animation: contentFadeIn 0.8s ease-out 2s forwards;
+        }
+        
+        @keyframes contentFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-screen">
+        <img src="./static/cutm.png" alt="CUTM Logo" class="splash-logo">
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <img src="./static/cutm.png" alt="CUTM Logo" height="60">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showContactModal()">Contact</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://eodnew.cutm.ac.in/" target="_blank">Download EOD Admit Card</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showRecheckingModal()">Rechecking Copy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link official" href="https://cutm.ac.in" target="_blank">Official Website</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="main-container">
+        <div class="container">
+            <div class="search-container">
+                <div class="logo-section">
+                    <h1 class="logo-text">Centurion</h1>
+                    <p class="university-name">University of Technology and Management, PKD</p>
+                    <p class="subtitle">Result Portal</p>
+                </div>
+                
+                <div class="search-box">
+                    {% if error %}
+                    <div style="background: #ff3b30; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+                    <form action="/" method="post" id="searchForm">
+                        <div class="form-group">
+                            <label for="registration" class="form-label">Registration Number</label>
+                            <input type="number" class="form-control" id="registration" name="registration" 
+                                   placeholder="Enter your registration number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="semester" class="form-label">Semester</label>
+                            <select class="form-control" id="semester" name="semester" required>
+                                <option value="">Select Semester</option>
+                                {% for semester in semesters %}
+                                    <option value="{{ semester }}">{{ semester }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="search-buttons">
+                            <button type="submit" class="btn-apple">Search Results</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#registration').on('input', function() {
+                var registration = $(this).val();
+                if (registration.length >= 3) {
+                    $.ajax({
+                        url: '/semesters',
+                        type: 'POST',
+                        data: { registration: registration },
+                        success: function(response) {
+                            var semesters = response.semesters;
+                            var options = '<option value="">Select Semester</option>';
+                            semesters.forEach(function(semester) {
+                                options += '<option value="' + semester + '">' + semester + '</option>';
+                            });
+                            $('#semester').html(options);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy</a>
+                    <a href="#" class="footer-link">Terms</a>
+                    <a href="mailto:230101120260@centurionuniv.edu.in" class="footer-link">Contact</a>
+                    <span>Developed by YUVRAJ</span>
+                    <span>For any issues or inquiries, please contact: <a href="mailto:230101120260@centurionuniv.edu.in" style="color: #e9ecef; text-decoration: underline;">230101120260@centurionuniv.edu.in</a></span>
+                </div>
+                <div class="social-links">
+                    <a href="http://www.github.com/yuvrajcutm" target="_blank" class="social-btn github">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="http://www.linkedin.com/in/yuvraj847" target="_blank" class="social-btn linkedin">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.3); margin: 16px 0;">
+            <div class="text-center">
+                <p class="mb-0" style="color: white;">&copy; 2025 The New CUTM Result Portal 2.0. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(70,130,180,0.8); z-index: 9999;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #4682b4; padding: 30px; border-radius: 15px; text-align: center; max-width: 400px; width: 90%; color: white;">
+            <button onclick="closeContactModal()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: white;">&times;</button>
+            <h3 style="color: white; margin-bottom: 20px;">Contact Information</h3>
+            <p style="margin-bottom: 15px; font-size: 16px; color: white;">Made by Yuvraj Cutm</p>
+            <p style="margin-bottom: 10px; font-size: 14px; color: white;">For any issues or inquiries, please contact:</p>
+            <p style="margin: 0; font-size: 14px; color: white;">Email: <a href="mailto:230101120260@centurionuniv.edu.in" style="color: #e9ecef; text-decoration: underline;">230101120260@centurionuniv.edu.in</a></p>
+        </div>
+    </div>
+
+    <!-- Rechecking Modal -->
+    <div id="recheckingModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(70,130,180,0.8); z-index: 9999; overflow-y: auto;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #4682b4; padding: 30px; border-radius: 15px; text-align: left; max-width: 500px; width: 90%; color: white; max-height: 80vh; overflow-y: auto;">
+            <button onclick="closeRecheckingModal()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: white;">&times;</button>
+            <h3 style="color: white; margin-bottom: 20px; text-align: center;">Rechecking Copy</h3>
+            
+            <div style="margin-bottom: 15px;">
+                <p style="font-size: 14px; margin-bottom: 5px;"><strong>Examination Cell Email:</strong></p>
+                <p style="font-size: 13px; margin-bottom: 10px;"><a href="mailto:exam.jitm@cutm.ac.in" style="color: #e9ecef; text-decoration: underline;">exam.jitm@cutm.ac.in</a></p>
+                <p style="font-size: 13px; margin-bottom: 15px;"><strong>Exam Cell Staff Contact:</strong> 9439307408</p>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <p style="font-size: 14px; margin-bottom: 5px;"><strong>Dean of Exam Cell (PKD) - Banita Mallik</strong></p>
+                <p style="font-size: 13px; margin-bottom: 3px;">Email: <a href="mailto:banita.mallik@cutm.ac.in" style="color: #e9ecef; text-decoration: underline;">banita.mallik@cutm.ac.in</a></p>
+                <p style="font-size: 13px; margin-bottom: 3px;">Prof. of Mathematics, School of Applied Sciences</p>
+                <p style="font-size: 13px; margin-bottom: 3px;">CUTM, Paralakhemundi Campus</p>
+                <p style="font-size: 13px; margin-bottom: 15px;"><strong>Mobile:</strong> 9437713627 / 9777355692</p>
+            </div>
+            
+            <div style="text-align: center;">
+                <p style="font-size: 14px; margin-bottom: 10px;"><strong>Rechecking Form Download:</strong></p>
+                <a href="https://docs.google.com/document/d/17VNLptq6XpZxZUp7lceqSHNWccrYChgZ/edit?usp=sharing&ouid=107149204486121368102&rtpof=true&sd=true" target="_blank" style="color: #e9ecef; text-decoration: underline; font-size: 13px;">Download Form</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showContactModal() {
+            document.getElementById('contactModal').style.display = 'block';
+        }
+        
+        function closeContactModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+        
+        function showRecheckingModal() {
+            document.getElementById('recheckingModal').style.display = 'block';
+        }
+        
+        function closeRecheckingModal() {
+            document.getElementById('recheckingModal').style.display = 'none';
+        }
+        
+        // Close modals when clicking outside
+        document.getElementById('contactModal').onclick = function(event) {
+            if (event.target === this) {
+                closeContactModal();
+            }
+        }
+        
+        document.getElementById('recheckingModal').onclick = function(event) {
+            if (event.target === this) {
+                closeRecheckingModal();
+            }
+        }
+    </script>
+
+    <!-- AI Assistant -->
+    {% include 'ai_assistant.html' %}
+    
+    </div> <!-- End Main Content -->
+
+</body>
+</html>

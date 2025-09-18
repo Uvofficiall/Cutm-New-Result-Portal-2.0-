@@ -1,0 +1,404 @@
+<!-- AI Assistant Component -->
+<div id="aiAssistant" class="ai-assistant">
+    <div class="ai-button" onclick="toggleAiChat()">
+        <i class="fas fa-robot"></i>
+    </div>
+    
+    <div id="aiChatPopup" class="ai-chat-popup">
+        <div class="ai-chat-header">
+            <div class="ai-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="ai-info">
+                <h5>CUTM Assistant</h5>
+                <span class="ai-status">Online</span>
+            </div>
+            <button class="ai-close" onclick="toggleAiChat()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="ai-chat-body" id="aiChatBody">
+            <div class="ai-message">
+                <div class="ai-message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="ai-message-content">
+                    <p>Hello! I'm your CUTM Result Portal assistant. How can I help you today?</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="ai-chat-footer">
+            <div class="ai-input-group">
+                <input type="text" id="aiInput" placeholder="Ask about results, grades, or portal..." class="ai-input">
+                <button class="ai-send-btn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.ai-assistant {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+}
+
+.ai-button {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+    transition: all 0.3s ease;
+    animation: aiGlow 2s ease-in-out infinite alternate;
+}
+
+.ai-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba(37, 99, 235, 0.6);
+}
+
+.ai-button i {
+    font-size: 24px;
+    color: white;
+    animation: aiFloat 3s ease-in-out infinite;
+}
+
+@keyframes aiGlow {
+    0% { box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4); }
+    100% { box-shadow: 0 8px 35px rgba(37, 99, 235, 0.8), 0 0 20px rgba(37, 99, 235, 0.3); }
+}
+
+@keyframes aiFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+.ai-chat-popup {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 350px;
+    height: 450px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e5e7eb;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: aiPopupSlide 0.3s ease-out;
+}
+
+.ai-chat-popup.show {
+    display: flex;
+}
+
+@keyframes aiPopupSlide {
+    from { opacity: 0; transform: translateY(20px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.ai-chat-header {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.ai-avatar {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: aiPulse 2s ease-in-out infinite;
+}
+
+.ai-avatar i {
+    font-size: 20px;
+}
+
+@keyframes aiPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.ai-info h5 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.ai-status {
+    font-size: 12px;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ai-status::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: aiStatusBlink 2s ease-in-out infinite;
+}
+
+@keyframes aiStatusBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.ai-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: auto;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.ai-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.ai-chat-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.ai-message {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+    animation: aiMessageSlide 0.5s ease-out;
+}
+
+.user-message {
+    flex-direction: row-reverse;
+}
+
+.user-message .ai-message-content {
+    background: #2563eb;
+    color: white;
+}
+
+@keyframes aiMessageSlide {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.ai-message-avatar {
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.user-message .ai-message-avatar {
+    background: #10b981;
+}
+
+.ai-message-avatar i {
+    font-size: 14px;
+    color: white;
+}
+
+.ai-message-content {
+    background: #f8fafc;
+    border-radius: 15px;
+    padding: 12px 16px;
+    max-width: 250px;
+    border: 1px solid #e5e7eb;
+}
+
+.ai-message-content p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #374151;
+}
+
+.user-message .ai-message-content p {
+    color: white;
+}
+
+.ai-chat-footer {
+    padding: 20px;
+    border-top: 1px solid #e5e7eb;
+    background: #f8fafc;
+}
+
+.ai-input-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.ai-input {
+    flex: 1;
+    border: 2px solid #e5e7eb;
+    border-radius: 25px;
+    padding: 12px 16px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.ai-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.ai-send-btn {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.ai-send-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+}
+
+@media (max-width: 768px) {
+    .ai-assistant { bottom: 20px; right: 20px; }
+    .ai-button { width: 50px; height: 50px; }
+    .ai-button i { font-size: 20px; }
+    .ai-chat-popup { width: 300px; height: 400px; bottom: 70px; }
+}
+</style>
+
+<script>
+const responses = {
+    'hello': 'Hello! Welcome to CUTM Result Portal. How can I assist you?',
+    'help': 'I can help you with:\n• How to check results\n• Understanding grades\n• PDF download\n• SGPA/CGPA calculation\n• EOD Admit Card\n• Rechecking Copy\n• Portal navigation',
+    'result': 'To check your result:\n1. Enter your registration number\n2. Select semester\n3. Click "Search Results"\n4. View your grades and download PDF',
+    'registration': 'Your registration number is the unique ID provided by CUTM. It usually starts with numbers like 245804...',
+    'semester': 'Select the semester for which you want to view results from the dropdown menu.',
+    'grade': 'Grade meanings:\n• O = Outstanding (10)\n• E = Excellent (9)\n• A = Very Good (8)\n• B = Good (7)\n• C = Average (6)\n• D = Below Average (5)\n• F/S/M = Fail (0)',
+    'sgpa': 'SGPA (Semester Grade Point Average) is calculated based on your grades and credits for that semester.',
+    'cgpa': 'CGPA (Cumulative Grade Point Average) is your overall performance across all semesters.',
+    'pdf': 'To download PDF:\n1. View your results\n2. Click "Download PDF"\n3. Choose Portrait/Landscape\n4. PDF will be saved automatically',
+    'error': 'If you get "No records found":\n• Check registration number\n• Verify semester selection\n• Contact admin if issue persists',
+    'admin': 'For admin access, click "Admin" in the navigation menu and use your credentials.',
+    'contact': 'For support, contact: 230101120260@centurionuniv.edu.in',
+    'eod': 'To download EOD Admit Card:\n1. Click "Download EOD Admit Card" in navbar\n2. You will be redirected to: https://eodnew.cutm.ac.in/\n3. Login with your credentials\n4. Download your admit card',
+    'admit': 'To download EOD Admit Card:\n1. Click "Download EOD Admit Card" in navbar\n2. You will be redirected to: https://eodnew.cutm.ac.in/\n3. Login with your credentials\n4. Download your admit card',
+    'rechecking': 'For Rechecking Copy:\n• Click "Rechecking Copy" in navbar\n• Contact Exam Cell: exam.jitm@cutm.ac.in\n• Staff Contact: 9439307408\n• Dean: Banita Mallik (banita.mallik@cutm.ac.in)\n• Mobile: 9437713627/9777355692\n• Download form from the popup',
+    'recheck': 'For Rechecking Copy:\n• Click "Rechecking Copy" in navbar\n• Contact Exam Cell: exam.jitm@cutm.ac.in\n• Staff Contact: 9439307408\n• Dean: Banita Mallik (banita.mallik@cutm.ac.in)\n• Mobile: 9437713627/9777355692\n• Download form from the popup'
+};
+
+function toggleAiChat() {
+    const popup = document.getElementById('aiChatPopup');
+    popup.classList.toggle('show');
+}
+
+function sendMessage() {
+    const input = document.getElementById('aiInput');
+    const message = input.value.trim();
+    
+    if (message) {
+        addMessage(message, true);
+        input.value = '';
+        
+        setTimeout(() => {
+            const response = getResponse(message);
+            addMessage(response, false);
+        }, 500);
+    }
+}
+
+function addMessage(text, isUser) {
+    const chatBody = document.getElementById('aiChatBody');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `ai-message ${isUser ? 'user-message' : ''}`;
+    
+    messageDiv.innerHTML = `
+        <div class="ai-message-avatar">
+            <i class="fas fa-${isUser ? 'user' : 'robot'}"></i>
+        </div>
+        <div class="ai-message-content">
+            <p>${text.replace(/\n/g, '<br>')}</p>
+        </div>
+    `;
+    
+    chatBody.appendChild(messageDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function getResponse(message) {
+    const msg = message.toLowerCase();
+    
+    for (const [key, response] of Object.entries(responses)) {
+        if (msg.includes(key)) {
+            return response;
+        }
+    }
+    
+    return "I'm here to help with CUTM Result Portal. Try asking about 'help', 'result', 'grades', or 'pdf download'.";
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const aiInput = document.getElementById('aiInput');
+    if (aiInput) {
+        aiInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    }
+    
+    // Auto-show popup after 2 seconds
+    setTimeout(() => {
+        const popup = document.getElementById('aiChatPopup');
+        popup.classList.add('show');
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            popup.classList.remove('show');
+        }, 5000);
+    }, 2000);
+});
+
+document.addEventListener('click', function(event) {
+    const aiAssistant = document.getElementById('aiAssistant');
+    const popup = document.getElementById('aiChatPopup');
+    
+    if (!aiAssistant.contains(event.target) && popup.classList.contains('show')) {
+        popup.classList.remove('show');
+    }
+});
+</script>

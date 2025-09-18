@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Bootstrap's JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <title>About Us</title>
+    <link rel="icon" type="image/x-icon" href="/static/about.png">
+    
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: white;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/static/cutm.png');
+            background-size: 200px 200px;
+            background-repeat: repeat;
+            opacity: 0.1;
+            z-index: -1;
+            animation: moveBackground 15s linear infinite;
+        }
+        
+        @keyframes moveBackground {
+            0% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-50px) translateY(-50px); }
+            50% { transform: translateX(-100px) translateY(0); }
+            75% { transform: translateX(-50px) translateY(50px); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+        
+        @keyframes moveContainerBackground {
+            0% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(-30px) translateY(-30px); }
+            50% { transform: translateX(-60px) translateY(0); }
+            75% { transform: translateX(-30px) translateY(30px); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+        
+
+        
+        .navbar {
+            background: #4682b4 !important;
+            border-bottom: 1px solid #36648b;
+        }
+        
+        .navbar-brand, .nav-link {
+            color: white !important;
+            font-weight: bold;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .content-section {
+            background: transparent;
+            border-radius: 8px;
+            padding: 32px;
+            margin: 24px 0;
+            position: relative;
+        }
+        
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            background-image: url('/static/cutm.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.15;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+        
+        .content-section > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-heading {
+            color: #1f2937;
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 12px;
+        }
+        
+        .colorful-text {
+            color: #4b5563;
+            font-size: 1rem;
+            line-height: 1.6;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+        
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .social-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            background: #4682b4;
+        }
+        
+        .social-button:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .footer {
+            background: #4682b4;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+    </style>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const navbarToggler = document.querySelector(".navbar-toggler");
+            const navbarCollapse = document.querySelector(".navbar-collapse");
+    
+            navbarToggler.addEventListener("click", function() {
+                navbarCollapse.classList.toggle("show");
+            });
+    
+            const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+            navLinks.forEach(link => {
+                link.addEventListener("click", function() {
+                    navbarCollapse.classList.remove("show");
+                });
+            });
+        });   
+    </script>
+</head>
+
+<body>
+    <header style="background: #4682b4; position: fixed; top: 0; left: 0; right: 0; z-index: 1001;">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('about') }}" style="color: #ffffff;">
+                <img src="./static/cutm.png" alt="CUTM Logo" height="40" class="me-2">
+                About Us
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}" style="color: #ffffff;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#footer" style="color: #ffffff;">Contact</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('about') }}" style="color: #e9ecef;">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+    <div class="container mx-auto py-8" style="position: relative;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('/static/cutm.png'); background-size: 300px 300px; background-repeat: repeat; opacity: 0.05; z-index: -1; animation: moveContainerBackground 20s linear infinite; filter: brightness(2);"></div>
+        <div class="content-section">
+            <h2 class="section-heading">The Project</h2>
+            <p class="colorful-text mb-4">
+                The <strong>CUTM Result Portal</strong> makes it easy for students to check and manage their results.
+                We aim to give every student a simple and friendly platform to view their semester grades and plan their studies better.
+            </p>
+            <p class="colorful-text mb-4">
+                By providing accurate grade details, quick record access, and helpful tools, the portal makes the academic process smoother for both students and teachers.
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-heading">Why Choose Us</h2>
+            <p class="colorful-text mb-4">
+                <strong>🎯Accuracy Results:</strong>
+Get instant and highly reliable SGPA and CGPA calculations, ensuring complete transparency in your academic progress.
+            </p>
+            <p class="colorful-text mb-4">
+                <strong>⚡The User-Friendly Interface:</strong>
+Our modern and intuitive interface makes it effortless to explore, calculate, and track your academic records.
+            </p>
+            <p class="colorful-text mb-4">
+                <strong>🔒 Secure & Private:</strong>
+Your academic data is protected with robust security standards, so you can access your results with full confidence.
+            </p>
+            <p class="colorful-text mb-4">
+                🚀 Early Access Advantage
+No need to wait for official ERP updates! Check your SGPA and CGPA before they are released on the college system, giving you a head start in planning your academic journey
+            </p>
+        </div>
+        
+        <div class="content-section">
+            <h2 class="section-heading">About Me</h2>
+            <div class="team-member">
+                <h3 class="colorful-text" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 10px;">YUVRAJ SHARMA</h3>
+                <p class="colorful-text mb-0"><strong>B.Tech CSE Student (2023-2027) | Centurion University of Technology and Management, PARALAKHEMUNI, ODISHA</strong></p><br>    
+                <p class="colorful-text mb-4">
+                    I bring with me 2.5 years of professional experience, having worked with renowned organizations like Flipkart and Teleperformance (TP), Kolkata.
+                </p>
+                <p class="colorful-text mb-4">
+                    :-At Flipkart, I contributed by analyzing and writing engaging product descriptions that enhanced customer decision-making and improved the online shopping experience.
+                </p>
+                <p class="colorful-text mb-4">
+                    :-At Teleperformance (TP), I gained hands-on experience in telecalling and customer interaction, developing strong communication and problem-solving skills while assisting clients effectively.
+                </p>
+                <p class="colorful-text mb-4">
+                    Currently, I am also the developer behind The New CUTM Result Portal 2.0. With a strong focus on creating impactful digital solutions, I strive to design and develop platforms that simplify complex processes and deliver seamless user experiences.
+                </p>
+                <p class="colorful-text mb-4">
+                    My role extends from ideation to execution — including design, development, and continuous optimization. By combining strategic planning with technical expertise, I ensure that every project I work on is efficient, reliable, and user-focused.
+                </p>
+                <p class="colorful-text mb-4">
+                    The New CUTM Result Portal 2.0 was built with a clear vision: to provide students with fast, secure, and convenient access to their academic results. Its minimalist design eliminates unnecessary complexity while prioritizing performance, clarity, and functionality.
+                </p>
+                <p class="colorful-text mb-4">
+                    I believe in building technology that not only solves problems but also empowers users to achieve more in their academic and professional journey.
+                </p>
+                <div class="social-buttons">
+                    <a href="http://www.github.com/Uvofficiall" target="_blank" class="social-button github">
+                      <svg class="cf-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="-2.5 0 19 19"><path d="M9.464 17.178a4.506 4.506 0 0 1-2.013.317 4.29 4.29 0 0 1-2.007-.317.746.746 0 0 1-.277-.587c0-.22-.008-.798-.012-1.567-2.564.557-3.105-1.236-3.105-1.236a2.44 2.44 0 0 0-1.024-1.348c-.836-.572.063-.56.063-.56a1.937 1.937 0 0 1 1.412.95 1.962 1.962 0 0 0 2.682.765 1.971 1.971 0 0 1 .586-1.233c-2.046-.232-4.198-1.023-4.198-4.554a3.566 3.566 0 0 1 .948-2.474 3.313 3.313 0 0 1 .091-2.438s.773-.248 2.534.945a8.727 8.727 0 0 1 4.615 0c1.76-1.193 2.532-.945 2.532-.945a3.31 3.31 0 0 1 .092 2.438 3.562 3.562 0 0 1 .947 2.474c0 3.54-2.155 4.32-4.208 4.548a2.195 2.195 0 0 1 .625 1.706c0 1.232-.011 2.227-.011 2.529a.694.694 0 0 1-.272.587z"></path></svg>
+                        </a>
+                        <a href="http://www.linkedin.com/in/yuvraj847" target="_blank" class="social-button linkedin">
+                          <svg viewBox="0 -2 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                          <g id="Icons" stroke="none" stroke-width="1">
+                              <g transform="translate(-702.000000, -265.000000)">
+                                  <path d="M746,305 L736.2754,305 L736.2754,290.9384 C736.2754,287.257796 734.754233,284.74515 731.409219,284.74515 C728.850659,284.74515 727.427799,286.440738 726.765522,288.074854 C726.517168,288.661395 726.555974,289.478453 726.555974,290.295511 L726.555974,305 L716.921919,305 C716.921919,305 717.046096,280.091247 716.921919,277.827047 L726.555974,277.827047 L726.555974,282.091631 C727.125118,280.226996 730.203669,277.565794 735.116416,277.565794 C741.21143,277.565794 746,281.474355 746,289.890824 L746,305 L746,305 Z M707.17921,274.428187 L707.117121,274.428187 C704.0127,274.428187 702,272.350964 702,269.717936 C702,267.033681 704.072201,265 707.238711,265 C710.402634,265 712.348071,267.028559 712.41016,269.710252 C712.41016,272.34328 710.402634,274.428187 707.17921,274.428187 L707.17921,274.428187 L707.17921,274.428187 Z M703.109831,277.827047 L711.685795,277.827047 L711.685795,305 L703.109831,305 L703.109831,277.827047 L703.109831,277.827047 Z" id="LinkedIn">
+                      </path>
+                              </g>
+                          </g>
+                      </svg>
+                    </a>
+                    <a href="http://www.instagram.com/yuvrajofficiall__" target="_blank" class="social-button instagram">
+                      <svg width="800px" height="800px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                      <g id="Page-1" stroke="none" stroke-width="1">
+                          <g id="Dribbble-Light-Preview" transform="translate(-340.000000, -7439.000000)">
+                              <g id="icons" transform="translate(56.000000, 160.000000)">
+                                  <path d="M289.869652,7279.12273 C288.241769,7279.19618 286.830805,7279.5942 285.691486,7280.72871 C284.548187,7281.86918 284.155147,7283.28558 284.081514,7284.89653 C284.035742,7285.90201 283.768077,7293.49818 284.544207,7295.49028 C285.067597,7296.83422 286.098457,7297.86749 287.454694,7298.39256 C288.087538,7298.63872 288.809936,7298.80547 289.869652,7298.85411 C298.730467,7299.25511 302.015089,7299.03674 303.400182,7295.49028 C303.645956,7294.859 303.815113,7294.1374 303.86188,7293.08031 C304.26686,7284.19677 303.796207,7282.27117 302.251908,7280.72871 C301.027016,7279.50685 299.5862,7278.67508 289.869652,7279.12273 M289.951245,7297.06748 C288.981083,7297.0238 288.454707,7296.86201 288.103459,7296.72603 C287.219865,7296.3826 286.556174,7295.72155 286.214876,7294.84312 C285.623823,7293.32944 285.819846,7286.14023 285.872583,7284.97693 C285.924325,7283.83745 286.155174,7282.79624 286.959165,7281.99226 C287.954203,7280.99968 289.239792,7280.51332 297.993144,7280.90837 C299.135448,7280.95998 300.179243,7281.19026 300.985224,7281.99226 C301.980262,7282.98483 302.473801,7284.28014 302.071806,7292.99991 C302.028024,7293.96767 301.865833,7294.49274 301.729513,7294.84312 C300.829003,7297.15085 298.757333,7297.47145 289.951245,7297.06748 M298.089663,7283.68956 C298.089663,7284.34665 298.623998,7284.88065 299.283709,7284.88065 C299.943419,7284.88065 300.47875,7284.34665 300.47875,7283.68956 C300.47875,7283.03248 299.943419,7282.49847 299.283709,7282.49847 C298.623998,7282.49847 298.089663,7283.03248 298.089663,7283.68956 M288.862673,7288.98792 C288.862673,7291.80286 291.150266,7294.08479 293.972194,7294.08479 C296.794123,7294.08479 299.081716,7291.80286 299.081716,7288.98792 C299.081716,7286.17298 296.794123,7283.89205 293.972194,7283.89205 C291.150266,7283.89205 288.862673,7286.17298 288.862673,7288.98792 M290.655732,7288.98792 C290.655732,7287.16159 292.140329,7285.67967 293.972194,7285.67967 C295.80406,7285.67967 297.288657,7287.16159 297.288657,7288.98792 C297.288657,7290.81525 295.80406,7292.29716 293.972194,7292.29716 C292.140329,7292.29716 290.655732,7290.81525 290.655732,7288.98792" id="instagram-[#167]">
+                  
+                  </path>
+                              </g>
+                          </g>
+                      </g>
+                  </svg>
+                    </a>
+                  </div>
+            </div>
+        </div>
+        
+
+
+
+        <footer class="footer">
+            <p>&copy; 2025  The New CUTM Result Portal 2.0. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>
