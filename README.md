@@ -50,4 +50,4 @@ This project is licensed under the [Apache License 2.0](LICENSE).
 
 ## Authors
 
-- [Yuvraj Sharma](https://github.com/Uvofficiall)
+- [YUVRAJ SHARMA](https://github.com/Uvofficiall)
