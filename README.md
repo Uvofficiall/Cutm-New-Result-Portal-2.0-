@@ -1,8 +1,8 @@
-# CUTM Result Portal
+# CUTM New Result Portal 2.0
 
-The CUTM Result Portal is a web application designed to help students and administrators view and manage academic results efficiently. This repository contains the codebase for the portal, including frontend templates, backend logic, and database configurations.
+The CUTM-New-Result-Portal-2.0 is a web application designed to help students and administrators view and manage academic results efficiently. This repository contains the codebase for the portal, including frontend templates, backend logic, and database configurations.
 
-[**Live Demo**](https://cutm-result-portal.onrender.com/)
+[**Live Demo**](https://cutm-new-result-portal-2-0.onrender.com/)
 
 ## Features
 
@@ -31,71 +31,12 @@ The CUTM Result Portal is a web application designed to help students and admini
 - **JavaScript**: Programming language for adding interactivity to web pages.
 
 ## Supported Batches
-
-## BBA Program
-
-- BBA 2023 Batch
-- BBA 2022 Batch
-- BBA 2021 Batch
-
-## BCA Program
-
-- BCA 2023 Batch
-- BCA 2022 Batch
-- BCA 2021 Batch
-
-## BFSC Program
-
-- BFSC 2023 Batch
-- BFSC 2022 Batch
-- BFSC 2021 Batch
-
-## BSC(AG) Program
-
-- BSC(AG) 2023 Batch
-- BSC(AG) 2022 Batch
-- BSC(AG) 2021 Batch
-
-## BTECH Program
-
-- BTECH 2023 Batch
-- BTECH 2022 Batch
-- BTECH 2021 Batch
-
-## BTECH(AG) Program
-
-- BTECH(AG) 2023 Batch
-- BTECH(AG) 2021 Batch
-
-## BTECH(DT) Program
-
-- BTECH(DT) 2023 Batch
-- BTECH(DT) 2022 Batch
-- BTECH(DT) 2021 Batch
-
-## BTECH(PHYTO) Program
-
-- BTECH(PHYTO) 2023 Batch
-- BTECH(PHYTO) 2022 Batch
-- BTECH(PHYTO) 2021 Batch
-
-## Diploma Program
-
-- Diploma 2023 Batch
-- Diploma 2022 Batch
-- Diploma 2021 Batch
-
-## MSC(AG) Program
-
-- MSC(AG) 2023 Batch
-- MSC(AG) 2022 Batch
-
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/minnukota381/CUTM-Result-Portal.git`
+1. Clone the repository: `https://github.com/Uvofficiall/Cutm-New-Result-Portal-2.0-.git`
 2. Install dependencies: `pip install -r requirements.txt`
 3. Run the application: `python app.py`
-4. Access the portal in your web browser at `http://localhost:5000`
+4. Access the portal in your web browser at `http://localhost:8080`
 
 ## Usage
 
@@ -105,8 +46,8 @@ The CUTM Result Portal is a web application designed to help students and admini
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [Apache License 2.0](LICENSE).
 
 ## Authors
 
-- [Minnu Madan Kota](https://github.com/minnukota381)
+- [Yuvraj Sharma](https://github.com/Uvofficiall)
